@@ -37,9 +37,10 @@ console.log(DB_USER,process.env.DB_USER)
 mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@apimicro.ntceg.mongodb.net/apicadastromicro?retryWrites=true&w=majority`)
 .then( () => {
    console.log('Conectado ao mongoDB')
-   app.listen(3000)
 }
 )
 .catch((erro) => console.log("Erro ao conectar: ",erro))
 //mongodb+srv://apiCadastroMicro:RDQaHO8xdVzmVmhe<password>@apimicro.ntceg.mongodb.net/apicadastromicro?retryWrites=true&w=majority
 //RDQaHO8xdVzmVmhe
+
+module.exports = app
