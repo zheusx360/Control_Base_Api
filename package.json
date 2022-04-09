@@ -6,9 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "dev":"./index.js localhost:3000"
-
-    
+    "dev": "./index.js localhost:3000"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +15,7 @@
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "heroku": "^7.60.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.7"
   },
