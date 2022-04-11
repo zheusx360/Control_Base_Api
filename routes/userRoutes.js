@@ -40,7 +40,7 @@ router.post('/veryfy',verifyJwt, async (req, res) => {
    if(verifyUser){
       return res.status(200).json({message:'Usuário válido', value: true})
    }else{
-      return res.status(401).json({message:'Usuário inexistente', value: false})
+      return res.status(401).json({message:'Usuário inexistente, verifique o número de registro digitado!', value: false})
    }
 })
 
