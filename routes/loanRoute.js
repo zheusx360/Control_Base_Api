@@ -4,11 +4,13 @@ const verifyJwt = require('../helpers/verify-jwt')
 
 //Inserção de um novo empréstimo na Base de Dados
 router.post('/',verifyJwt, async (req, res) => {
-   const {user, serviceTag, patrimonio,date } = req.body 
+   const {user, patrimonio, monitorId, serviceTag, microId, date } = req.body 
    const loan = {
       user: user,
-      serviceTag:serviceTag,
       patrimonio: patrimonio,
+      monitorId: monitorId,
+      serviceTag:serviceTag,
+      microId:microId,
       date: date
    }
 
@@ -25,6 +27,7 @@ router.post('/',verifyJwt, async (req, res) => {
       res.status(500).json({error: error})
    }
 })
+
 
 //Busca de todos os empréstimo na base de dados 
 router.get('/',verifyJwt, async (req,res) =>{
