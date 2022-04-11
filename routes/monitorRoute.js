@@ -101,7 +101,7 @@ router.patch('/:id',verifyJwt, async (req, res) => {
 
 })
 
-//Deletar um Micro
+//Deletar um Monitor
 router.delete('/:id',verifyJwt, async(req, res) =>{
 
    const id = req.params.id

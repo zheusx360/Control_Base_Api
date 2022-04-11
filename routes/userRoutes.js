@@ -32,18 +32,27 @@ router.post('/',verifyJwt, async (req, res) => {
    }
 })
 
+//Verificar se um usuário existe na base de dados
+router.post('/veryfy',verifyJwt, async (req, res) => {
+   const {registration} = req.body 
+   const user = {registration}
+   verifyUser = await User.findOne({registration:user.registration})
+   if(verifyUser){
+      return res.status(200).json({message:'Usuário válido', value: true})
+   }else{
+      return res.status(401).json({message:'Usuário inexistente', value: false})
+   }
+})
+
 //Busca de todos os usuários na base de dados
 router.get('/',verifyJwt, async (req,res) =>{
-
    try {
-
       const users = await User.find()
       res.status(200).json(users)
       
    } catch (error) {
       res.status(500).json({error: error})
    }
-
 })
 //Busca de um usúario especifico na base de dados
 router.get('/:id',verifyJwt, async (req, res) => {
@@ -51,7 +60,7 @@ router.get('/:id',verifyJwt, async (req, res) => {
    try {
       const user = await User.findOne({registration: id})
       if(!user){
-         res.status(422).json({message: "Usuário não encontrado!"})
+         res.status(422).json({message: "Usuário não encontrado!", value: false})
          return
       }
       res.status(200).json(user)
