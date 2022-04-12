@@ -4,7 +4,7 @@ const User = mongoose.model('User',{
    name: String,
    registration: String,
    sector: String,
-   loan: Array
+   loan: Object
 })
 
 module.exports = User

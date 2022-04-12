@@ -9,7 +9,7 @@ router.post('/',verifyJwt, async (req, res) => {
       name,
       registration,
       sector,
-      loan
+      loan: loan || {},
    }
    verifyUser = await User.findOne({registration:user.registration})
 
@@ -93,6 +93,25 @@ router.patch('/:id',verifyJwt, async (req, res) => {
    }
 
 })
+
+//Atualização do array de objetos com os empréstimos feitos pelo usuário 
+router.patch('/loan/:id', async (req, res) => {
+   const id = req.params.id
+   const {loan} = req.body
+   const user = {loan}
+   try {  
+      const updateUser = await User.updateOne({registration: id}, {$push : {"loan" : loan}})
+      if(updateUser.matchedCount === 0){
+         res.status(422).json({message: 'Usuário não encontrado na base de dados!'})
+         return
+      }
+      res.status(200).json({message: "Atualizado:"})
+
+   } catch (error) {
+      res.status(500).json({error: error})
+   }
+})
+
 
 //Deletar dados
 router.delete('/:id',verifyJwt, async(req, res) =>{

@@ -21,12 +21,13 @@ router.post('/',verifyJwt, async (req, res) => {
    }
    try {
       //Criando os dados do empréstimo
-      await Loan.create(loan)
-      res.status(201).json({message: 'Empréstimo realizado!', res: res})
+      let loanCreate = await Loan.create(loan)
+      res.status(201).json({message: 'Empréstimo realizado!', loan: loanCreate._id})
 
    } catch (error) {
       res.status(500).json({error: error})
    }
+
 })
 
 
