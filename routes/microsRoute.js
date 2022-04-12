@@ -83,14 +83,14 @@ router.get('/:id',verifyJwt, async (req, res) => {
 router.patch('/:id',verifyJwt, async (req, res) => {
 
    const id = req.params.id
-   const {serviceTag, model, memoria , patrimonio, status,loanby, loanFor} = req.body 
+   const {serviceTag, model, memoria , patrimonio, status,loanBy, loanFor} = req.body 
    const micro = {
       serviceTag,
       model,
       memoria,
       patrimonio,
       status: status || 'available',
-      loanBy: loanby || 'NA',
+      loanBy: loanBy || 'NA',
       loanFor: loanFor || 'NA'
    }
    try {  

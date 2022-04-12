@@ -7,6 +7,7 @@ const Loan = mongoose.model('Loan',{
    serviceTag:String,
    microId:String,
    date: String,
+   loanBy: String
 })
 
 module.exports = Loan
