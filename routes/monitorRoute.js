@@ -80,12 +80,14 @@ router.get('/:id',verifyJwt, async (req, res) => {
 router.patch('/:id',verifyJwt, async (req, res) => {
 
    const id = req.params.id
-   const {patrimonio,marca, model, status} = req.body 
+   const {patrimonio,marca, model, status, loanby, loanFor} = req.body 
    const monitor = {
       patrimonio,
       marca,
       model,
-      status: status || 'available'
+      status: status || 'available',
+      loanBy: loanby || 'NA',
+      loanFor: loanFor || 'NA'
    }
    try {  
       const updateMonitor = await Monitor.updateOne({patrimonio: id}, monitor)

@@ -5,7 +5,9 @@ const Micros = mongoose.model('Micros',{
    model: String,
    memoria:String,
    patrimonio: String,
-   status: Object
+   status: Object,
+   loanBy: String,
+   loanFor: String
 })
 
 module.exports = Micros

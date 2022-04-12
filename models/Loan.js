@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Loan = mongoose.model('Rent',{
+const Loan = mongoose.model('Loan',{
    user: String,
    patrimonio: String,
    monitorId: String,

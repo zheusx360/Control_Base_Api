@@ -4,7 +4,9 @@ const Monitor = mongoose.model('Monitor',{
    patrimonio: String,
    marca:String,
    model: String,
-   status: Object
+   status: Object,
+   loanBy: String,
+   loanFor: String
 })
 
 module.exports = Monitor

@@ -83,13 +83,15 @@ router.get('/:id',verifyJwt, async (req, res) => {
 router.patch('/:id',verifyJwt, async (req, res) => {
 
    const id = req.params.id
-   const {serviceTag, model, memoria , patrimonio, status} = req.body 
+   const {serviceTag, model, memoria , patrimonio, status,loanby, loanFor} = req.body 
    const micro = {
       serviceTag,
       model,
       memoria,
       patrimonio,
-      status: status || 'available'
+      status: status || 'available',
+      loanBy: loanby || 'NA',
+      loanFor: loanFor || 'NA'
    }
    try {  
       const updateMicro = await Micros.updateOne({serviceTag: id}, micro)
