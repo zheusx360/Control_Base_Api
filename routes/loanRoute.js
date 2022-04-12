@@ -1,5 +1,6 @@
 const router = require('express').Router() 
 const Loan = require('../models/Loan')
+const User = require('../models/User')
 const verifyJwt = require('../helpers/verify-jwt')
 
 //Inserção de um novo empréstimo na Base de Dados
@@ -22,11 +23,14 @@ router.post('/',verifyJwt, async (req, res) => {
    try {
       //Criando os dados do empréstimo
       let loanCreate = await Loan.create(loan)
-      res.status(201).json({message: 'Empréstimo realizado!', loan: loanCreate._id})
+      await User.updateOne({registration: user}, {$push : {"loan" : JSON.stringify(loanCreate._id)}})
+      res.status(201).json({message: 'Empréstimo realizado!', loan:  loanCreate._id})
 
    } catch (error) {
       res.status(500).json({error: error})
    }
+
+   
 
 })
 
