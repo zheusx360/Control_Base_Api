@@ -53,7 +53,7 @@ router.get('/',verifyJwt, async (req,res) =>{
 router.get('/:id',verifyJwt, async (req, res) => {
    const id = req.params.id
    try {
-      const loan = await Loan.findOne({$or: [{user: id},{serviceTag: id},{patrimonio: id}]})
+      const loan = await Loan.find({$or: [{user: id},{serviceTag: id},{patrimonio: id}]})
       if(!loan){
          res.status(422).json({message: "Empréstimo não encontrado!"})
          return

@@ -24,6 +24,13 @@ router.post('/', async (req, res) => {
    }
 
    verifyUser = await UserSystem.findOne({email:user.email})
+
+   if(verifyUser){
+      res.status(422).json({message:`Usuário com o email ${user.email} já cadastrado no sistema!`})
+      return
+   }
+
+   verifyUser = await UserSystem.findOne({email:user.email})
    if(verifyUser){
       res.status(422).json({message:`Email ${user.email} já cadastrado no sistema!`})
       return
