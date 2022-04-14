@@ -38,7 +38,7 @@ router.post('/veryfy',verifyJwt, async (req, res) => {
    const user = {registration}
    verifyUser = await User.findOne({registration:user.registration})
    if(verifyUser){
-      return res.status(200).json({message:'Usuário válido', value: true})
+      return res.status(200).json({message:'Usuário válido', value: true, name: verifyUser.name})
    }else{
       return res.status(401).json({message:'Usuário inexistente, verifique o número de registro digitado!', value: false})
    }
