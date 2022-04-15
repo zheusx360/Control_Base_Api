@@ -9,7 +9,7 @@ const Loan = mongoose.model('Loan',{
    serviceTag:String,
    modelPc: String,
    memory:String,
-   PatrimonioPc: String,
+   patrimonioPc: String,
    patrimonio: String,
    monitorId: String,
    modelMonitor: String,

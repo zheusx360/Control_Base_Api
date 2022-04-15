@@ -15,8 +15,8 @@ router.post('/',verifyJwt, async (req, res) => {
       serviceTag:serviceTag || "NA",
       modelPc: modelPc || "NA",
       memory: memory || "NA",
-      patrimonioPc: patrimonioPc,
-      patrimonio: patrimonio,
+      patrimonioPc: patrimonioPc || "NA",
+      patrimonio: patrimonio || "NA",
       monitorId: monitorId || "NA",
       modelMonitor: modelMonitor || "NA",
       marcaMonitor: marcaMonitor || "NA"
