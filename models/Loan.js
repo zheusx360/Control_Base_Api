@@ -13,6 +13,7 @@ const Loan = mongoose.model('Loan',{
    patrimonio: String,
    monitorId: String,
    modelMonitor: String,
+   mercaMonitor: String
 })
 
 module.exports = Loan
