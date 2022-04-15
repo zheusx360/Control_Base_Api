@@ -22,8 +22,8 @@ router.post('/',verifyJwt, async (req, res) => {
       monitorId: monitorId || "NA",
       modelMonitor: modelMonitor || "NA",
       marcaMonitor: marcaMonitor || "NA",
-      checkMicro: true,
-      checkMonitor: true
+      checkMicro: checkMicro,
+      checkMonitor: checkMonitor
    }
 
    if(!user || !date && !serviceTag || !patrimonio  ){
