@@ -14,8 +14,6 @@ const Loan = mongoose.model('Loan',{
    monitorId: String,
    modelMonitor: String,
    marcaMonitor: String,
-   checkMicro: Boolean,
-   checkMonitor: Boolean
 })
 
 module.exports = Loan

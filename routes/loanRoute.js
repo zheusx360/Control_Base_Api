@@ -7,7 +7,7 @@ const verifyJwt = require('../helpers/verify-jwt')
 router.post('/',verifyJwt, async (req, res) => {
    const {user, userName, date, loanBy, microId, serviceTag, 
           modelPc, memory, patrimonioPc, patrimonio, monitorId, 
-          modelMonitor, marcaMonitor, checkMonitor, checkMicro } = req.body 
+          modelMonitor, marcaMonitor} = req.body 
    const loan = {
       user: user,
       userName: userName,
@@ -22,8 +22,6 @@ router.post('/',verifyJwt, async (req, res) => {
       monitorId: monitorId || "NA",
       modelMonitor: modelMonitor || "NA",
       marcaMonitor: marcaMonitor || "NA",
-      checkMicro: checkMicro,
-      checkMonitor: checkMonitor
    }
 
    if(!user || !date && !serviceTag || !patrimonio  ){
