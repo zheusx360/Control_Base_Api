@@ -54,6 +54,10 @@ router.get('/:id',verifyJwt, async (req,res) =>{
 
    try {
       const users = await UserSystem.find()
+      if(users === null){
+         res.status(422).json({message:'Nenhum usuário encontrado no sistema'})
+         return
+      }
       res.status(200).json(users)
       
    } catch (error) {
@@ -68,6 +72,10 @@ router.get('/single/:id',verifyJwt, async (req,res) =>{
 
    try {
       const user = await UserSystem.findOne({email: id})
+      if(user === null){
+         res.status(422).json({message:'Nenhum usuário encontrado no sistema'})
+         return
+      }
       res.status(200).json(user)
       
    } catch (error) {
