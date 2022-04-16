@@ -46,17 +46,13 @@ router.post('/', async (req, res) => {
    }
 })
 
-//Busca de todos os usuários na base de dados (apenas usuários super admin tem acesso)
+//Busca de todos os usuários na base de dados (apenas usuários admin e super admin tem acesso)
 router.get('/:id',verifyJwt, async (req,res) =>{
 
    const id = req.params.id
    const user = await UserSystem.findOne({email: id})
 
    try {
-      if(user.type !== 'super admin'){
-         res.status(422).json({message:'Acesso restrito!'})
-         return
-      }
       const users = await UserSystem.find()
       res.status(200).json(users)
       
