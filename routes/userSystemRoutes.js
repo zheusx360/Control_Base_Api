@@ -61,29 +61,17 @@ router.get('/:id',verifyJwt, async (req,res) =>{
    }
 
 })
+//Busca de um usúario especifico na base de dados
+router.get('/single/:id',verifyJwt, async (req,res) =>{
 
-//Busca de um usúario especifico na base de dados (login normal conforme for o type do usuário as regras se aplicam via front)
-router.get('/',verifyJwt, async (req, res) => {
-   const {email, name, password, type, approved } = req.body
-   const users ={
-      email,
-      name,
-      password,
-      type,
-      approved
-   }
    try {
-      const user = await UserSystem.findOne({name: users.email})
-
-      if(!user || user.password !== users.password){
-         res.status(422).json({message: 'Usuário ou senha inválidos!'})
-         return
-      }
-      res.status(200).json(user)
-
+      const user = await UserSystem.findOne({email: id})
+      res.status(200).json(users)
+      
    } catch (error) {
       res.status(500).json({error: error})
    }
+
 })
 
 //Rota que traz todos os usuários que necessitam de aprovação
