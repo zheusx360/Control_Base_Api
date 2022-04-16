@@ -119,6 +119,7 @@ router.patch('/devolution/:id',verifyJwt, async (req, res) => {
       if(micro !== 'NA'){
          console.log("Devolve Micro")
          const microDevolution = await Micro.updateOne({serviceTag: micro},{$set:{status:'available'}})
+         await Loan.updateOne({_id: id},{$set:{serviceTag:'NA'}})
          if(microDevolution.matchedCount === 0){
             res.status(422).json({message: 'Micro não encontrado...'})
             state = false
@@ -129,6 +130,7 @@ router.patch('/devolution/:id',verifyJwt, async (req, res) => {
       if(monitor !== 'NA'){
          console.log("Devolve Monitor")
          const monitorDevolution = await Monitor.updateOne({patrimonio: monitor},{$set:{status:'available'}})
+         await Loan.updateOne({_id: id},{$set:{patrimonio:'NA'}})
          if(monitorDevolution.matchedCount === 0){
             res.status(422).json({message: 'Monitor não encontrado...'})
             state = false
