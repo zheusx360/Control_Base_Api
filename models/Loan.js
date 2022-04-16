@@ -14,6 +14,7 @@ const Loan = mongoose.model('Loan',{
    monitorId: String,
    modelMonitor: String,
    marcaMonitor: String,
+   status: String,
 })
 
 module.exports = Loan
