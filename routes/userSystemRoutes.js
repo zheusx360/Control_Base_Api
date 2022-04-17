@@ -132,24 +132,25 @@ router.patch('/:id',verifyJwt, async (req, res) => {
 })
 
 //Deletar dados
-router.delete('/',verifyJwt, async(req, res) =>{
+router.delete('/:id',verifyJwt, async(req, res) =>{
 
-   const {email} = req.body
+   const id = req.params.id
 
-   const user = await UserSystem.findOne({email: email})
+   const user = await UserSystem.findOne({email: id})
    if(!user){
       res.status(422).json({message:'O usuário não foi encontrado!'})
       return
    }
    try {
 
-      await UserSystem.deleteOne({email: email})
+      await UserSystem.deleteOne({email: id})
       res.status(200).json({message:"Usuário deletado com sucesso!"})
       
    } catch (error) {
       res.status(500).json({error: error})
    }
 })
+
 //Rota de login no sistema
 router.post('/login', async(req, res) =>{
    const {email, password } = req.body
