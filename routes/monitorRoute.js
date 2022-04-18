@@ -95,7 +95,7 @@ router.patch('/:id',verifyJwt, async (req, res) => {
          res.status(422).json({message: 'Monitor não encontrado na base de dados!'})
          return
       }
-      res.status(200).json(monitor)
+      res.status(200).json({message:"Dados atualizados com sucesso", data: monitor})
 
    } catch (error) {
       res.status(500).json({error: error})

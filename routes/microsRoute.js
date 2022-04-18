@@ -99,7 +99,7 @@ router.patch('/:id',verifyJwt, async (req, res) => {
          res.status(422).json({message: 'Micro não encontrado na base de dados!'})
          return
       }
-      res.status(200).json(micro)
+      res.status(200).json({message: "Dados atualizados com sucesso", date: micro})
 
    } catch (error) {
       res.status(500).json({error: error})
