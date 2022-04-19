@@ -1,8 +1,11 @@
 const router = require('express').Router() 
 const UserSystem = require('../models/UserSystem')
+const SaveCodeAndEmail = require('../models/SaveCodeAndEmail')
 const createUserToken = require('../helpers/create-user-token')
 const verifyJwt = require('../helpers/verify-jwt')
 const bcrypt = require('bcrypt')
+const nodemailer = require('nodemailer')
+const CodeGenerator = require('../helpers/CodeGenerator')
 
 //Inserção de um novo usuário na Base de Dados
 router.post('/', async (req, res) => {
@@ -87,7 +90,6 @@ router.get('/single/:id',verifyJwt, async (req,res) =>{
 //Rota que traz todos os usuários que necessitam de aprovação
 router.get('/approve/:id',verifyJwt, async (req,res) =>{
 
-   console.log("teste")
    const id = req.params.id
    const user = await UserSystem.findOne({email: id})
 
@@ -211,6 +213,49 @@ router.post('/login', async(req, res) =>{
    }
 
 })
+
+//Rota para envio do código para a recuperação da senha
+router.get('/send/:id', async (req,res) => {
+
+   const code = CodeGenerator()
+   const email = req.params.id;
+
+   const verifyEmail = await UserSystem.findOne({email: email})
+
+   if(!verifyEmail){
+      res.status(500).json({message:`Email ${email} não existe em nossos registros.`})
+      return
+   }
+
+   const veryfyEmailrecovery = await SaveCodeAndEmail.findOne({email: email})
+   if(!veryfyEmailrecovery){
+      console.log('Criou novo')
+      await SaveCodeAndEmail.create({code,email});
+   }else{
+      console.log('Atualizou código')
+      await SaveCodeAndEmail.updateOne({email:email},{$set:{code:code}})
+   }
+
+   let transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      secure: true,
+       auth: {
+           user: 'redefinirsenhacontrolbase@gmail.com',
+           pass: process.env.MAIL_PASSWORD
+       }
+   });
+   
+     await transporter.sendMail({
+     from: 'redefinirsenhacontrolbase@gmail.com',
+     to: email,
+     subject: 'Código para redefinir senha no APP Control Base!',
+     text: "Código para redefinir sua senha...",
+     html: `<h2>REDEFINIR SENHA</h2></br><h3>CÓDIGO DE ACESSO:</h3><h2>${code}</h2></br><h3>Se você não solicitou esse código por favor desconsidere.</h3>`
+   })
+   .then( res.status(200).json({message:"Email enviado com sucesso!"}))
+   .catch(error =>  res.status(500).json({message:`Erro ao enviar o email ${error}`}));
+})
+
 
 module.exports = router
 
