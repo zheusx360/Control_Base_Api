@@ -189,7 +189,6 @@ router.post('/login', async(req, res) =>{
 
  //Rota para aprovação do usuário no sistema
  router.patch('/approved/:id',verifyJwt, async (req, res) => {
-   console.log('Teste')
    const id = req.params.id
 
    const {email, name, password, type, approved } = req.body
@@ -229,10 +228,8 @@ router.get('/send/:id', async (req,res) => {
 
    const veryfyEmailrecovery = await SaveCodeAndEmail.findOne({email: email})
    if(!veryfyEmailrecovery){
-      console.log('Criou novo')
       await SaveCodeAndEmail.create({code,email});
    }else{
-      console.log('Atualizou código')
       await SaveCodeAndEmail.updateOne({email:email},{$set:{code:code}})
    }
 
@@ -256,6 +253,60 @@ router.get('/send/:id', async (req,res) => {
    .catch(error =>  res.status(500).json({message:`Erro ao enviar o email ${error}`}));
 })
 
+//Rota de validação do código no sistema(esqueceu a senha)
+router.post('/verifyCode', async(req, res) =>{
+   const {email, code } = req.body
+   if(!email || !code){res.status(422).json({title: "Dados inválidos!", message: "Se não recebeu o código envie novamente"})
+   return
+   }
+   const user = await SaveCodeAndEmail.findOne({email: email})
+   if(!user){
+     res.status(422).json({ message:`Email ${email} não cadastrado em nosso sistema`})
+     return
+   }
+
+   try {
+      const veryfyPassword = code === user.code;
+      if(!veryfyPassword){
+         res.status(422).json({title:"Código inválido!",  message: "Tente enviar o código novamente."})
+         return
+      }
+      const codeGen = CodeGenerator();
+      await SaveCodeAndEmail.updateOne({email:email},{$set:{code:codeGen}})
+      res.status(200).json({title: "Dados válidos", message:"Código validado, o código foi utilizado e caso precise redefinir sua senha novamente, será necessário enviar um novo código.", codePass: codeGen})
+   } catch (error) {
+      res.status(500).json({error: error})
+   }
+ })
+
+ //Rota para reset de senha
+ router.patch('/changepass/:id', async (req, res) => {
+
+   const email = req.params.id;
+   const {password, codeGen} = req.body;
+   const user = await SaveCodeAndEmail.findOne({email: email})
+   
+   try {  
+      const veryfyPassword = codeGen === user.code;
+      if(!veryfyPassword){
+         res.status(422).json({title:"Código expirado!",  message: "Tente enviar o código novamente."})
+         return
+      }
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      const updateUser = await UserSystem.updateOne({email: email}, {$set:{password:passwordHash}})
+
+      if(updateUser.matchedCount === 0){
+         res.status(422).json({message: 'Usuário não encontrado na base de dados!'})
+         return
+      }
+      res.status(200).json({message: `Senha atualizada com sucesso!`})
+
+   } catch (error) {
+      res.status(500).json({error: error})
+   }
+
+})
 
 module.exports = router
 
