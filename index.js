@@ -2,6 +2,8 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
+var cors = require('cors')
+app.use(cors())
 
 //configurações necessarias para leitura do json
 app.use(
